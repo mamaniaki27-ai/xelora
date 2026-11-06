@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "XELORA — Non-custodial trading",
+  "short_name": "XELORA",
+  "description": "Wallet-based access to spot markets, perpetual futures, and swaps.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c0e12",
+  "theme_color": "#0c0e12",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+---
+import Shell from '../layouts/Shell.astro';
+import { titleFor } from '../lib/titles';
+import { infoPages } from '../data/pages';
+import { markets } from '../data/markets';
+import { tradePath } from '../lib/pairs';
+import { blogPosts } from '../data/blog';
+import { learnLessons } from '../data/learn';
+import { tradingGuide } from '../data/trading-guide';
+import { walletGuide } from '../data/wallet-guide';
+import { studyGuide } from '../data/study-guide';
+
+export function getStaticPaths() {
+  const paths = new Set<string>([
+    '/markets',
+    '/futures',
+    '/spot',
+    '/swap',
+    '/wallet',
+    '/market-pulse',
+    '/funding-radar',
+    '/crypto-prices',
+    '/screener',
+    '/journal',
+    '/referrals',
+    '/how-to-trade',
+    '/how-to-use-wallet',
+    '/guide',
+    ...['profit-calculator','position-risk-calculator','liquidation-calculator','futures-pnl-calculator','funding-rate-calculator','leverage-calculator','roi-calculator','break-even-calculator','stop-loss-calculator','take-profit-calculator','market-cap-calculator','token-price-calculator','dca-calculator','apr-calculator','apy-calculator'].map((slug) => `/tools/${slug}`),
+    ...infoPages.map((page) => page.path),
+    ...markets.map((market) => tradePath(market.symbol, market.kind)),
+    ...blogPosts.map((post) => `/blog/${post.slug}`),
+    ...learnLessons.map((lesson) => `/learn/${lesson.slug}`),
+    ...tradingGuide.lessons.map((lesson) => `${tradingGuide.base}/${lesson.slug}`),
+    ...walletGuide.lessons.map((lesson) => `${walletGuide.base}/${lesson.slug}`),
+    ...studyGuide.lessons.map((lesson) => `${studyGuide.base}/${lesson.slug}`),
+  ]);
+
+  return [...paths].map((path) => ({
+    params: { path: path.replace(/^\//, '') },
+  }));
+}
+
+const raw = Astro.params.path;
+const joined = Array.isArray(raw) ? raw.join('/') : String(raw ?? '');
+const path = `/${joined}`.replace(/\/+/g, '/');
+---
+
+<Shell title={titleFor(path)} />
