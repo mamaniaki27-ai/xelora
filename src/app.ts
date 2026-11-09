@@ -23,6 +23,7 @@ import LearnLesson from './components/pages/LearnLesson.vue';
 import CoursePage from './components/pages/CoursePage.vue';
 import CourseArticle from './components/pages/CourseArticle.vue';
 import AboutPage from './components/pages/AboutPage.vue';
+import { HUMAN_CHECK_KEY } from './lib/human-check';
 
 const dedicated = new Set(['market-pulse', 'funding-radar', 'crypto-prices', 'tools', 'screener', 'journal', 'referrals', 'token', 'blog', 'learn', 'how-to-trade', 'how-to-use-wallet', 'guide', 'about']);
 
@@ -78,6 +79,14 @@ export default function setupApp(app: App) {
   const router = createAppRouter();
   router.afterEach((to) => {
     if (typeof document === 'undefined') return;
+    try {
+      if (sessionStorage.getItem(HUMAN_CHECK_KEY) !== '1') {
+        document.title = 'Verify you are human | XELORA';
+        return;
+      }
+    } catch {
+      /* Ignore storage failures and keep the route title. */
+    }
     const title = typeof to.meta.title === 'string' ? to.meta.title : 'XELORA';
     document.title = title.startsWith('XELORA') ? title : `${title} | XELORA`;
   });

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import LogoMark from './LogoMark.vue';
-import SocialIcons from './SocialIcons.vue';
 import { footerGroups } from '../../data/pages';
 import { useUiStore } from '../../stores/ui';
 
@@ -17,9 +16,6 @@ const ui = useUiStore();
           <span class="text-2xl font-extrabold tracking-[0.08em] text-ink">XELORA</span>
         </RouterLink>
         <p class="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">{{ ui.t('footer.tagline') }}</p>
-        <div class="mt-5">
-          <SocialIcons />
-        </div>
       </div>
 
       <div class="mt-8 border-t border-line pt-8">
