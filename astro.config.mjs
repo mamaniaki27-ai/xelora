@@ -1,10 +1,10 @@
 import { defineConfig } from 'astro/config';
-import vue from '@astrojs/vue';
+import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/postcss';
 
 export default defineConfig({
   devToolbar: { enabled: false },
-  integrations: [vue({ appEntrypoint: '/src/app' })],
+  integrations: [react()],
   vite: {
     css: {
       postcss: {

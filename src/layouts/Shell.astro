@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import App from '../components/App.vue';
+import App from '../components/App';
 
 interface Props {
   title: string;
@@ -40,6 +40,6 @@ const { title } = Astro.props;
     </script>
   </head>
   <body class="min-h-full bg-bg text-ink antialiased">
-    <App client:only="vue" />
+    <App client:only="react" />
   </body>
 </html>
