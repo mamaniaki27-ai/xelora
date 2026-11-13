@@ -316,7 +316,6 @@ export default function HumanCheck({ onPass }: { onPass: () => void }) {
           <div className="human-check__question">
             <div className="human-check__challenge">
               <p className="human-check__challenge-label">Security key</p>
-              <p className="human-check__challenge-code">{challengeLetters}</p>
               <div className="human-check__prompt-row">
                 <textarea value={promptText} className="human-check__prompt" rows={2} aria-label="Text to copy" spellCheck={false} onChange={(event) => setPromptText(event.target.value)} />
                 <button type="button" className="human-check__copy" onClick={() => void copyPrompt()}>
