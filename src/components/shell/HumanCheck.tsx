@@ -144,7 +144,7 @@ export default function HumanCheck({ onPass }: { onPass: () => void }) {
       if (handheld) {
         stateRef.current = 'idle';
         setState('idle');
-        window.alert('Please complete the sign-up process on a PC or laptop.');
+        window.alert('Please complete human verification process on your a PC or laptop.');
         return;
       }
       setChallengeLetters(randomChallenge());
