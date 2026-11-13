@@ -179,7 +179,7 @@
   z-index: 91;
   top: 50%;
   left: 50%;
-  width: min(calc(52rem * 0.7), calc(100% - 2rem));
+  width: min(26rem, calc(100% - 2rem));
   min-height: min(34rem, calc(100dvh - 2rem));
   display: flex;
   flex-direction: column;

